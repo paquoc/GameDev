@@ -1,4 +1,7 @@
 JelllyAdventure/Library/
 JelllyAdventure/Temp/
+JelllyAdventure/Obj/
+JelllyAdventure/Builds/
+JelllyAdventure/Build/
+JelllyAdventure/MemoryCaptures/
 JelllyAdventure/Logs/Packages-Update.log
-JelllyAdventure/Assets/**/*.meta
