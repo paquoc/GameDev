@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class ControlCharacter : MonoBehaviour
 {
-    [SerializeField] private float speed = 1;
+    [SerializeField] private float speed = 0.8f;
     Vector3 pos;
     // Start is called before the first frame update
     void Start()
@@ -20,17 +20,20 @@ public class ControlCharacter : MonoBehaviour
         {
             if (PressKeyMoveLeft())
             {
-                //GetComponent<Animator>().SetBool("Run", true);
+                GetComponent<Animator>().Play("Run");
                 GetComponent<SpriteRenderer>().flipX = true;
-                pos.x -= speed;
+                if (pos.x >= -8)
+                    pos.x -= speed;
             }
             else if (PressKeyMoveRight())
             {
+                GetComponent<Animator>().Play("Run");
                 GetComponent<SpriteRenderer>().flipX = false;
                 pos.x += speed;
             }
                 
         }
+        else GetComponent<Animator>().Play("Blink");
         transform.position = pos;
     }
 
