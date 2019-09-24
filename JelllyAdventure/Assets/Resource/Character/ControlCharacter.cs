@@ -26,7 +26,7 @@ public class ControlCharacter : MonoBehaviour
             {
                 GetComponent<Animator>().Play("Run");
                 GetComponent<SpriteRenderer>().flipX = true;
-                //if (pos.x >= -8)
+                if (pos.x >= -8)
                 {
                     rigidbody.AddForce(new Vector2(-speed, 0));
                 }
