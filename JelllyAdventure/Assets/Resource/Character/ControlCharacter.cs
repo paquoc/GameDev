@@ -19,7 +19,6 @@ public class ControlCharacter : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        pos = transform.position;
         if (PressKeyMove())
         {
             if (PressKeyMoveLeft())
