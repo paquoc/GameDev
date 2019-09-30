@@ -5,15 +5,17 @@ using UnityEngine;
 
 public class ControlCharacter : MonoBehaviour
 {
-    [SerializeField] private float speed = 0.8f;
+    public float speed = 50f;
+    public float jumpForce = 100f;
     Vector3 pos;
-    Rigidbody2D rigidbody;
+    Rigidbody2D rigidBody;
+    public Animator animator;
 
     // Start is called before the first frame update
     void Start()
     {
-        pos = transform.position;
-        rigidbody = GetComponent<Rigidbody2D>();
+        rigidBody = GetComponent<Rigidbody2D>();
+        animator.SetBool("isAlive", true);
     }
 
     // Update is called once per frame
@@ -24,22 +26,40 @@ public class ControlCharacter : MonoBehaviour
         {
             if (PressKeyMoveLeft())
             {
-                GetComponent<Animator>().Play("Run");
+                animator.Play("Run");
                 GetComponent<SpriteRenderer>().flipX = true;
-                if (pos.x >= -8)
-                {
-                    rigidbody.AddForce(new Vector2(-speed, 0));
-                }
+                rigidBody.AddForce(new Vector2(-speed, 0));
             }
             else if (PressKeyMoveRight())
             {
-                GetComponent<Animator>().Play("Run");
+                animator.Play("Run");
                 GetComponent<SpriteRenderer>().flipX = false;
-                rigidbody.AddForce(new Vector2(speed, 0));
+                rigidBody.AddForce(new Vector2(speed, 0));
             }
+            else if (PressKeyMoveUp())
+            {
+                Jump();
+            }
+            //animator.SetBool("isGrounded", IsGrounded());
         }
         else GetComponent<Animator>().Play("Blink");
-        //transform.position = pos;
+    }
+
+    private void Jump()
+    {
+        if (IsGrounded())
+        {
+            //rigidBody.AddForce(Vector2.up * speed, ForceMode2D.Impulse);
+            rigidBody.AddForce(new Vector2(0, jumpForce));
+        }
+    }
+
+    public LayerMask groundLayer;
+    private bool IsGrounded()
+    {
+        if (Physics2D.Raycast(this.transform.position, Vector2.down, 0.8f, groundLayer.value))
+            return true;
+        return false;
     }
 
     private bool PressKeyMoveUp()
