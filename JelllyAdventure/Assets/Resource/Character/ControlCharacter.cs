@@ -7,7 +7,6 @@ public class ControlCharacter : MonoBehaviour
 {
     public float speed = 50f;
     public float jumpForce = 100f;
-    Vector3 pos;
     Rigidbody2D rigidBody;
     public Animator animator;
 
@@ -15,7 +14,6 @@ public class ControlCharacter : MonoBehaviour
     void Start()
     {
         rigidBody = GetComponent<Rigidbody2D>();
-        animator.SetBool("isAlive", true);
     }
 
     // Update is called once per frame
@@ -40,7 +38,6 @@ public class ControlCharacter : MonoBehaviour
             {
                 Jump();
             }
-            //animator.SetBool("isGrounded", IsGrounded());
         }
         else GetComponent<Animator>().Play("Blink");
     }
@@ -49,7 +46,6 @@ public class ControlCharacter : MonoBehaviour
     {
         if (IsGrounded())
         {
-            //rigidBody.AddForce(Vector2.up * speed, ForceMode2D.Impulse);
             rigidBody.AddForce(new Vector2(0, jumpForce));
         }
     }
