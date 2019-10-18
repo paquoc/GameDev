@@ -5,86 +5,63 @@ using UnityEngine;
 
 public class ControlCharacter : MonoBehaviour
 {
-    public float speed = 50f;
-    public float jumpForce = 100f;
-    Rigidbody2D rigidBody;
+
+    public float speed = 50f, maxSpeed = 3, jumpPow = 350f;
+    public Rigidbody2D rigidBody;
     public Animator animator;
+    public bool grounded = true;
+    private bool faceright = true;
 
     // Start is called before the first frame update
     void Start()
     {
-        rigidBody = GetComponent<Rigidbody2D>();
+        rigidBody = gameObject.GetComponent<Rigidbody2D>();
+        animator = gameObject.GetComponent<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (PressKeyMove())
+        animator.SetBool("Grounded", grounded);
+        animator.SetFloat("Speed", Mathf.Abs(rigidBody.velocity.x));
+
+        if (Input.GetKeyDown(KeyCode.UpArrow))
         {
-            if (PressKeyMoveLeft())
+            if (grounded)
             {
-                animator.Play("Run");
-                GetComponent<SpriteRenderer>().flipX = true;
-                rigidBody.AddForce(new Vector2(-speed, 0));
+                grounded = false;
+                rigidBody.AddForce(Vector2.up * jumpPow);
             }
-            else if (PressKeyMoveRight())
-            {
-                animator.Play("Run");
-                GetComponent<SpriteRenderer>().flipX = false;
-                rigidBody.AddForce(new Vector2(speed, 0));
-            }
-            else if (PressKeyMoveUp())
-            {
-                Jump();
-            }
-        }
-        else GetComponent<Animator>().Play("Blink");
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.tag == "Ground")
-            Debug.Log("Collision");
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        
-    }
-
-    private void Jump()
-    {
-        if (IsGrounded())
-        {
-            rigidBody.AddForce(new Vector2(0, jumpForce));
         }
     }
 
-    public LayerMask groundLayer;
-    private bool IsGrounded()
+    void FixedUpdate()
     {
-        if (Physics2D.Raycast(this.transform.position, Vector2.down, 0.8f, groundLayer.value))
-            return true;
-        return false;
+        float h = Input.GetAxis("Horizontal");
+        rigidBody.AddForce((Vector2.right) * speed * h);
+
+        if (rigidBody.velocity.x > maxSpeed)
+            rigidBody.velocity = new Vector2(maxSpeed, rigidBody.velocity.y);
+        if (rigidBody.velocity.x < -maxSpeed)
+            rigidBody.velocity = new Vector2(-maxSpeed, rigidBody.velocity.y);
+
+        if (h > 0 && !faceright)
+            FlipX();
+        if (h < 0 && faceright)
+            FlipX();
+
+        if (grounded)
+        {
+            rigidBody.velocity = new Vector2(rigidBody.velocity.x * 0.7f, rigidBody.velocity.y);
+        }
     }
 
-    private bool PressKeyMoveUp()
+    private void FlipX()
     {
-        return Input.GetKey(KeyCode.UpArrow);
-    }
-
-    private bool PressKeyMove()
-    {
-        return PressKeyMoveLeft() || PressKeyMoveRight() || PressKeyMoveUp();
-    }
-
-    private bool PressKeyMoveRight()
-    {
-        return Input.GetKey(KeyCode.RightArrow);
-    }
-
-    private bool PressKeyMoveLeft()
-    {
-        return Input.GetKey(KeyCode.LeftArrow);
+        faceright = !faceright;
+        Vector3 scale;
+        scale = transform.localScale;
+        scale.x *= -1;
+        transform.localScale = scale;
     }
 }
