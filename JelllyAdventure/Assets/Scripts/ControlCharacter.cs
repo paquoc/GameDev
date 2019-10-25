@@ -9,8 +9,9 @@ public class ControlCharacter : MonoBehaviour
     public float speed = 50f, maxSpeed = 3, jumpPow = 350f;
     public Rigidbody2D rigidBody;
     public Animator animator;
-    public bool grounded = true;
+    public bool isGrounded = true;
     private bool faceright = true;
+    private bool canDoubleJump = true;
 
     // Start is called before the first frame update
     void Start()
@@ -22,14 +23,21 @@ public class ControlCharacter : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        animator.SetBool("Grounded", grounded);
+        animator.SetBool("Grounded", isGrounded);
         animator.SetFloat("Speed", Mathf.Abs(rigidBody.velocity.x));
 
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
-            if (grounded)
+            if (isGrounded)
             {
-                grounded = false;
+                isGrounded = false;
+                canDoubleJump = true;
+                rigidBody.AddForce(Vector2.up * jumpPow);
+            }
+            else if (canDoubleJump)
+            {
+                isGrounded = false;
+                canDoubleJump = false;
                 rigidBody.AddForce(Vector2.up * jumpPow);
             }
         }
@@ -50,7 +58,7 @@ public class ControlCharacter : MonoBehaviour
         if (h < 0 && faceright)
             FlipX();
 
-        if (grounded)
+        if (isGrounded)
         {
             rigidBody.velocity = new Vector2(rigidBody.velocity.x * 0.7f, rigidBody.velocity.y);
         }
