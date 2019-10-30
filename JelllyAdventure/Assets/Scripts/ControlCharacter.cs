@@ -25,6 +25,7 @@ public class ControlCharacter : MonoBehaviour
     {
         animator.SetBool("Grounded", isGrounded);
         animator.SetFloat("Speed", Mathf.Abs(rigidBody.velocity.x));
+        animator.SetFloat("SpeedUp", rigidBody.velocity.y);
 
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
