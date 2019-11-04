@@ -1,13 +1,15 @@
-JelllyAdventure/Library/
-JelllyAdventure/Temp/
-JelllyAdventure/Obj/
-JelllyAdventure/Builds/
-JelllyAdventure/Build/
-JelllyAdventure/MemoryCaptures/
-JelllyAdventure/Logs/Packages-Update.log
-JelllyAdventure/.vs/
-JelllyAdventure/.gradle/
-JelllyAdventure/ExportedObj/
+*/Library/
+*/Temp/
+*/Obj/
+*/Builds/
+*/Build/
+*/MemoryCaptures/
+*/Logs/Packages-Update.log
+*/.vs/
+*/.gradle/
+*/ExportedObj/
+*/Assets/Resource/Demo/
+*/Assets/Resource/Updates/
 
 *.csproj
 *.unityproj
@@ -30,5 +32,3 @@ JelllyAdventure/ExportedObj/
 sysinfo.txt
 
 crashlytics-build.properties
-JelllyAdventure/Assets/Resource/Demo/
-JelllyAdventure/Assets/Resource/Updates/
