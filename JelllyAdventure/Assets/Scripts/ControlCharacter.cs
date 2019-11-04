@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ControlCharacter : MonoBehaviour
 {
@@ -72,5 +73,10 @@ public class ControlCharacter : MonoBehaviour
         scale = transform.localScale;
         scale.x *= -1;
         transform.localScale = scale;
+    }
+
+    public void Death()
+    { 
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
