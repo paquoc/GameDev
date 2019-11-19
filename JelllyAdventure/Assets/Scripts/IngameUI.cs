@@ -11,6 +11,7 @@ public class IngameUI : MonoBehaviour
     private void Awake()
     {
         instance = this;
+        labelNumCoin.text = testGameData.instance.GetScore().ToString();
     }
     // Start is called before the first frame update
     void Start()
